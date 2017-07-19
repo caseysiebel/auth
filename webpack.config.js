@@ -1,4 +1,6 @@
 const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+
 
 module.exports = {
     entry: path.join(__dirname, '/client/src/app.js'),
@@ -18,5 +20,14 @@ module.exports = {
             }
         ]
     },
+    /*
+	plugins: [
+		//new webpack.optimize.UglifyJsPlugin(),
+		new ExtractTextPlugin('style.css')
+	],
+    */
+	devServer: {
+		historyApiFallback: true
+	},
     watch: true
 };

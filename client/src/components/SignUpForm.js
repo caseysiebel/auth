@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 import { Card, CardText } from 'material-ui';
 import { RaisedButton } from 'material-ui';
 import { TextField } from 'material-ui';
