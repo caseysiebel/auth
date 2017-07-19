@@ -7,7 +7,7 @@ import SignUpPage from './containers/SignUpPage';
 const routes = {
 	// base component (wrapper for the whole application).
 	component: Base,
-	childRoutes: [
+    childRoutes: [
         {
             path: '/',
             component: HomePage
@@ -22,7 +22,7 @@ const routes = {
             path: '/signup',
             component: SignUpPage
         }
-	]
+    ]
 };
 
 export default routes;
