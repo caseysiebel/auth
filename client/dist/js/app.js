@@ -25475,8 +25475,39 @@ var LoginPage = function (_React$Component) {
 			// prevent default action. in this case, action is the form submission event
 			event.preventDefault();
 
-			console.log('email:', _this.state.user.email);
-			console.log('password:', _this.state.user.password);
+			// create a string for an HTTP body message
+			var email = encodeURIComponent(_this.state.user.email);
+			var password = encodeURIComponent(_this.state.user.password);
+			var formData = 'email=' + email + '&password=' + password;
+
+			// create an AJAX request
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', '/auth/login');
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.responseType = 'json';
+			xhr.addEventListener('load', function () {
+				if (xhr.status === 200) {
+					// success
+
+					// change the component-container state
+					_this.setState({
+						errors: {}
+					});
+
+					console.log('The form is valid');
+				} else {
+					// failure
+
+					// change the component state
+					var errors = xhr.response.errors ? xhr.response.errors : {};
+					errors.summary = xhr.response.message;
+
+					_this.setState({
+						errors: errors
+					});
+				}
+			});
+			xhr.send(formData);
 		};
 
 		_this.changeUser = function (event) {
@@ -25571,8 +25602,8 @@ var SignUpPage = function (_React$Component) {
 	_inherits(SignUpPage, _React$Component);
 
 	/**
- * Class constructor.
- */
+  * Class constructor.
+  */
 	function SignUpPage(props) {
 		_classCallCheck(this, SignUpPage);
 
@@ -25593,9 +25624,39 @@ var SignUpPage = function (_React$Component) {
 			// prevent default action. in this case, action is the form submission event
 			event.preventDefault();
 
-			console.log('name:', _this.state.user.name);
-			console.log('email:', _this.state.user.email);
-			console.log('password:', _this.state.user.password);
+			// create a string for an HTTP body message
+			var name = encodeURIComponent(_this.state.user.name);
+			var email = encodeURIComponent(_this.state.user.email);
+			var password = encodeURIComponent(_this.state.user.password);
+			var formData = 'name=' + name + '&email=' + email + '&password=' + password;
+
+			// create an AJAX request
+			var xhr = new XMLHttpRequest();
+			xhr.open('post', '/auth/signup');
+			xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			xhr.responseType = 'json';
+			xhr.addEventListener('load', function () {
+				if (xhr.status === 200) {
+					// success
+
+					// change the component-container state
+					_this.setState({
+						errors: {}
+					});
+
+					console.log('The form is valid');
+				} else {
+					// failure
+
+					var errors = xhr.response.errors ? xhr.response.errors : {};
+					errors.summary = xhr.response.message;
+
+					_this.setState({
+						errors: errors
+					});
+				}
+			});
+			xhr.send(formData);
 		};
 
 		_this.state = {
@@ -25613,17 +25674,17 @@ var SignUpPage = function (_React$Component) {
 	}
 
 	/**
- * Change the user object.
- *
- * @param {object} event - the JavaScript event object
- */
+  * Change the user object.
+  *
+  * @param {object} event - the JavaScript event object
+  */
 
 
 	/**
- * Process the form.
- *
- * @param {object} event - the JavaScript event object
- */
+  * Process the form.
+  *
+  * @param {object} event - the JavaScript event object
+  */
 
 
 	_createClass(SignUpPage, [{
@@ -25631,8 +25692,8 @@ var SignUpPage = function (_React$Component) {
 
 
 		/**
-  * Render the component.
-  */
+   * Render the component.
+   */
 		value: function render() {
 			return _react2.default.createElement(_SignUpForm2.default, {
 				onSubmit: this.processForm,
