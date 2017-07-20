@@ -7,7 +7,6 @@ import {
     Link
 } from 'react-router-dom'
 
-import routes from './routes.js';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -15,28 +14,31 @@ import injectTapEventPlugin from "react-tap-event-plugin";
 
 injectTapEventPlugin();
 
+import Header from './components/Header'
 import HomePage from './components/HomePage'
+import DashboardPage from './containers/DashboardPage'
 import LoginPage from './containers/LoginPage'
 import SignUpPage from './containers/SignUpPage'
+import Auth from './modules/Auth';
+
 
 const App = () => (
     <MuiThemeProvider muiTheme={getMuiTheme()}>
         <Router>
             <div>
-                <div className="top-bar">
-                    <div className="top-bar-left">
-                        <Link to="/">React App</Link>
-                    </div>
-
-                    <div className="top-bar-right">
-                        <Link to="/login">Log in</Link>
-                        <Link to="/signup">Sign up</Link>
-                    </div>
-
-                </div>
+                <Header/>
                 <Route 
                     path='/'
-                    component={ HomePage }
+                    getComponent={
+                        (location, callback) => {
+                            console.log('RRRR')
+                            if (Auth.isUserAuthenticated()) {
+                                callback(null, DashboardPage);
+                            } else {
+                                callback(null, HomePage);
+                            }
+                        }
+                    }
                 />
                 <Route
                     path='/login'
@@ -45,6 +47,17 @@ const App = () => (
                 <Route 
                     path='/signup'
                     component={ SignUpPage }
+                />
+                <Route 
+                    path='/logout'
+                    onEnter = {
+                        (nextState, replace) => {
+                            Auth.deauthenticateUser();
+
+                            // change the current URL to /
+                            replace('/');
+                        }
+                    }
                 />
             </div>
         </Router>
